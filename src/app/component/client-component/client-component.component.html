@@ -1,0 +1,49 @@
+<div class="main-window">
+
+    <div class="active-clients">
+        <div class="profile-data"><img class="profile" src="./assets/profile.jpg" alt="">
+            <h1 class="username">{{username | titlecase}}</h1>
+        </div>
+        <div class="active-clients-searchbox">
+            <input type="text" #userName class="search-input">
+            <button (click)="searchUserName(userName.value)" class="search-button">search</button>
+        </div>
+       
+        <div (click)="gotoPrivateChat(searchedUser)" class="search-result" [class.active-clients-user]="searchedUser?.name">{{searchedUser?.name | titlecase}}</div>
+        <div class="search-result-error">{{errorMessage}}</div>
+        <h2>Active Clients</h2>
+        <div class="active-clients-div" *ngFor="let client of activeClients">
+            <button (click)="gotoPrivateChat(client)" class="active-clients-user"
+                [class.Highlighted-Name]="client.name == highlightName">{{client.name | titlecase}}</button>
+        </div>
+    </div>
+
+    <div class="messages-component">
+        <div class="broadcast-messages">
+            <div class="broadcast-messages-sender-Div-caption"><b>broadcast</b></div>
+            <div class="broadcast-messages-sender-Div">
+
+                <div *ngFor="let message of messages" class="broadcast-messages-list">
+                    <div *ngIf=" message.name == username; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
+                        <div class="then-block"> <b>Me : </b>{{message.msg}}</div>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <div class="else-block"> <b> {{message.name | titlecase}} : </b>{{message.msg}}</div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="broadcast-messages-sender">
+                <form [formGroup]="broadcast_form" (ngSubmit)="sendMessage()" ngNativeValidate
+                    class="broadcast-messages-sender-form">
+                    <input class="broadcast-messages-input" [(ngModel)]="message"
+                        (keyup)="$event.keyCode == 13 && sendMessage()" required formControlName="inputText" />
+                    <button class="broadcast-messages-button">Send</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <app-private-chat></app-private-chat>
+        </div>
+    </div>
+</div>

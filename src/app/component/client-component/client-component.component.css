@@ -1,0 +1,153 @@
+.profile-data{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 4%;
+}
+.active-clients-user{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: 5%;
+    margin: 5px 10px;
+    padding: 5px 20px;
+    outline: none;
+    background-color: cornsilk;
+    border-radius: 20px;
+    border: none;
+}
+.active-clients-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5px;
+}
+h2{
+    text-align: center;
+    color: azure;
+    background-color: rgb(35, 27, 5);
+    border-radius: 5px;
+    padding: 2%;
+    opacity: 90%;
+    margin: 0 10px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.then-block{
+    text-align: right;
+    margin-right:20px;
+}
+.username{
+    color:rgb(42, 42, 82);
+    text-decoration: underline;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 10px;
+}
+.profile{
+    width: 70px;
+    height: 96px;
+    border-radius: 50%;
+}
+
+
+.active-clients{
+    width: 30%;
+    height: 100vh;
+    font-size: 20px;
+    background-color: #b5b52e;
+    opacity: 86%;
+   
+}
+.main-window{
+    display:flex;
+}
+.messages-component{
+    width: 70%;
+    max-height:max-content;
+    display: flex;
+    flex-direction: column;
+}
+.broadcast-messages{
+    background-color: #777f7f;
+    height: 45vh;
+    margin: 10px;
+    opacity: 0.9;
+    border-radius: 13px;
+}
+.broadcast-messages-list{
+    font-size: 20px;
+    padding: 5px 5px;
+    margin-left:10px ;
+}
+hr{
+    color: grey;
+}
+
+.broadcast-messages-input{
+    text-align: center;
+    line-height: 5px;
+    padding: 10px;
+    width: 85%;
+    margin: 0px 20px;
+    border-radius: 20px;
+}
+.broadcast-messages-button{
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    outline: none;
+}
+.broadcast-messages-sender-Div{
+    margin: 0% auto;
+    overflow: auto;
+    height: calc(100% - 100px);
+}
+.broadcast-messages-sender-Div-caption{
+    font-size: 20px;
+    text-align: center;
+    margin:10px 0;
+}
+.broadcast-messages-sender-form{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.active-clients-searchbox{
+    margin: 10px;
+}
+.search-input{
+margin: 0 auto;
+border-radius: 5px;
+
+}
+.search-result{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: 5%;
+    margin: 5px 10px;
+    padding: 5px 20px;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+}
+.search-result :hover{
+    background-color: cornsilk;
+}
+.search-result-error{
+    text-align: center;
+    color: white;
+}
+.Highlighted-Name{
+    color: cornflowerblue;
+}
+.Regular-Name{
+    color:black;
+}
+.hide-Component{
+    visibility:hidden;
+}
+.show-Component{
+    display: block;
+    
+}

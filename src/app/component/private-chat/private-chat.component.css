@@ -1,0 +1,50 @@
+
+.private-message{
+    background-color: #777f7f;
+    height: 45vh;
+    margin: 10px;
+    opacity: 0.9;
+    border-radius: 13px;
+    margin-top: 20px;
+    
+}
+.messages{
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    height:calc(100% - 100px);
+}
+.private-chat-input{
+    text-align: center;
+    line-height: 5px;
+    padding: 10px;
+    width: 85%;
+    margin: 0 20px;
+    border-radius: 20px;
+}
+.private-chat-button{
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+}
+.private-message-list{
+    font-size: 20px;
+    padding: 10px 5px;
+    margin-left:10px ;
+}
+.private-message-title{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin:10px 0;
+}
+.then-block{
+    text-align: right;
+    margin-right:20px;
+}
+.private-chat{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
