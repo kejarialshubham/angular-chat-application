@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { Observable, of, Subject } from 'rxjs'
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-
+import { Observable,  Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +15,8 @@ export class ChatServiceService {
   UserMap: Map<any, any>;
   socketId: any;
   userDetail: any;
+  newActiveClients=[];
+  checkSocketId:any;
 
 
   private messageNotification = new Subject();
@@ -26,9 +25,11 @@ export class ChatServiceService {
 
   private messageSource = new Subject();
   currentMessage = this.messageSource.asObservable();
+  newSocketId: any;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor() {
     this.socket = io.connect(this.url);
+
     this.UserMap = new Map<any, any>();
   }
   public setDetails(details) {
@@ -37,7 +38,6 @@ export class ChatServiceService {
 
   public sendMessage(message: string, username: string) {
     let details = { name: username, msg: message }
-
     this.socket.emit('chat-message', JSON.stringify(details))
   }
 
@@ -52,8 +52,7 @@ export class ChatServiceService {
   getPrivateMessage() {
     return Observable.create((observer) => {
       this.socket.on('send-private-message', (message: any) => {
-        let highlight = JSON.parse(message)
-        this.messageNotification.next(highlight.senderName);
+        console.log('private message received', message)
         observer.next(message);
       })
     });
@@ -65,21 +64,21 @@ export class ChatServiceService {
     return storeArray
   }
 
-  public sendUserDetails(username: string) {
+
+
+  public sendUserDetails(username: string,callback) {
     this.username = username;
-    this.socket.emit('get-details', username)
-    this.socket.emit('join', username);
-  }
-
-  getAllClients():Observable<any>{
-      this.socket.emit('get-clients');
-      return Observable.create((observer) => {
-        this.socket.on('get-clients',data => {
-          observer.next(data);
-        });
+      this.socket.emit('get-details',this.username);
+      this.socket.on('duplicate-user',(username)=> {
+        console.log('duplicate event received')
+          callback();
       });
+   
   }
 
+  joinUser(){
+    this.socket.emit('join', this.username);
+  }
   getActiveClients(): Observable<any> {
     this.socket.emit('get-clients');
 
@@ -93,7 +92,6 @@ export class ChatServiceService {
             this.activeClients.splice(i, 1);
           }
         }
-        console.log(this.UserMap)
         for (let i = 0; i < this.activeClients.length; i++) {
           if (!(this.UserMap.get(this.activeClients[i].name))) {
             let newArray = [];
@@ -110,14 +108,24 @@ export class ChatServiceService {
   }
 
 
-  deleteMap(): Observable<any> {
+  // deleteMap(): Observable<any> {
+  //   return Observable.create((observer) => {
+  //     this.socket.on('delete-map', (data: any) => {
+  //       this.UserMap.delete(data)
+  //       observer.next(data);
+  //     })
+  //   });
+
+  // }
+
+  deleteMap(): Observable<any>{
     return Observable.create((observer) => {
       this.socket.on('delete-map', (data: any) => {
-        this.UserMap.delete(data)
+        console.log("data osccured",data)
         observer.next(data);
+
       })
     });
 
-  }
-
+}
 }

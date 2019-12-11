@@ -101,6 +101,8 @@ hr{
     margin: 0% auto;
     overflow: auto;
     height: calc(100% - 100px);
+    overflow-x: hidden;
+    overflow-wrap: break-word;
 }
 .broadcast-messages-sender-Div-caption{
     font-size: 20px;
@@ -150,4 +152,11 @@ border-radius: 5px;
 .show-Component{
     display: block;
     
+}
+.message-count{
+        font-size: 13px;
+        border-radius: 100%;
+        background-color: green;
+        color: white;
+        padding: 4px 6px;
 }
