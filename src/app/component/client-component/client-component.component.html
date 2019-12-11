@@ -21,7 +21,7 @@
         <div class="messages-component">
             <div class="broadcast-messages">
                 <div class="broadcast-messages-sender-Div-caption"><b>Broadcast Here</b></div>
-                <div class="broadcast-messages-sender-Div">
+                <div class="broadcast-messages-sender-Div" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     
                     <div *ngFor="let message of messages" class="broadcast-messages-list">
                         <div *ngIf=" message.name == username; then thenBlock else elseBlock"></div>

@@ -1,6 +1,6 @@
 <div class="private-message" *ngIf="receivername">
     <div class="private-message-title">Sending Message to {{receivername | titlecase}}</div>
-    <div class="messages">
+    <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
         <div *ngFor='let m of displayMessage' class="private-message-list">
             <div *ngIf="m.senderName == username; then thenBlock else elseBlock"></div>
             <ng-template #thenBlock>
