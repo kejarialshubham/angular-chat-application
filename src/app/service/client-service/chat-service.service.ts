@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable,  Subject } from 'rxjs'
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ChatServiceService {
   userDetail: any;
   newActiveClients=[];
   checkSocketId:any;
-
+  allEmployees=[];
 
   private messageNotification = new Subject();
   currentNotification = this.messageNotification.asObservable();
@@ -29,7 +30,6 @@ export class ChatServiceService {
 
   constructor() {
     this.socket = io.connect(this.url);
-
     this.UserMap = new Map<any, any>();
   }
   public setDetails(details) {
@@ -65,19 +65,9 @@ export class ChatServiceService {
   }
 
 
-
-  public sendUserDetails(username: string,callback) {
-    this.username = username;
-      this.socket.emit('get-details',this.username);
-      this.socket.on('duplicate-user',(username)=> {
-        console.log('duplicate event received')
-          callback();
-      });
-   
-  }
-
-  joinUser(){
-    this.socket.emit('join', this.username);
+  joinUser(username){
+    console.log('join emitted');
+    this.socket.emit('join', username);
   }
   getActiveClients(): Observable<any> {
     this.socket.emit('get-clients');
@@ -107,25 +97,40 @@ export class ChatServiceService {
     this.socket.emit('private-message', JSON.stringify(details))
   }
 
-
-  // deleteMap(): Observable<any> {
-  //   return Observable.create((observer) => {
-  //     this.socket.on('delete-map', (data: any) => {
-  //       this.UserMap.delete(data)
-  //       observer.next(data);
-  //     })
-  //   });
-
-  // }
-
   deleteMap(): Observable<any>{
+    
     return Observable.create((observer) => {
       this.socket.on('delete-map', (data: any) => {
-        console.log("data osccured",data)
         observer.next(data);
 
       })
     });
 
 }
+
+getAllusers():Observable<any>{
+   this.socket.emit('get-all-users');
+   return Observable.create((observer)=> {
+    this.socket.on('received-all-users',(allEmployees) => {
+      observer.next(allEmployees)
+    });
+  })
+}
+
+checkUser(username,callback){
+  this.username = username;
+  this.socket.emit('check-user',username);
+  this.socket.on('success',()=> {
+    this.joinUser(username)
+    callback("success")
+  });
+  this.socket.on('failure',()=> {
+    callback("failure");
+  });
+  this.socket.on('admin-success',()=> {
+    this.joinUser(username)
+    callback("admin")
+  })
+}
+
 }

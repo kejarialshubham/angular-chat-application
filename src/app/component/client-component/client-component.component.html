@@ -1,5 +1,4 @@
 <div class="main-window">
-
         <div class="active-clients">
             <div class="profile-data"><img class="profile" src="./assets/profile.jpg" alt="">
                 <h1 class="username">{{username | titlecase}}</h1>
@@ -12,6 +11,8 @@
             <div (click)="gotoPrivateChat(searchedUser)" class="search-result" [class.active-clients-user]="searchedUser?.name">{{searchedUser?.name | titlecase}}</div>
             <div class="search-result-error">{{errorMessage}}</div>
             <h2>Active Clients</h2>
+         
+            
             <div class="active-clients-div" *ngFor="let client of activeClients; let i=index">
                 <button (click)="gotoPrivateChat(client,i)" class="active-clients-user"
                         [class.Highlighted-Name]="client.name == highlightName">{{client.name | titlecase}} <span class="message-count">{{client.count}}</span> </button>

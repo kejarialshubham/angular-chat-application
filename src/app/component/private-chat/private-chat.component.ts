@@ -36,6 +36,7 @@ export class PrivateChatComponent implements OnInit {
       this.PrivateMessages = this.chatService.UserMap.get(receivedData.senderName);
       this.PrivateMessages.push(JSON.parse(data));
       this.chatService.UserMap.set(receivedData.senderName, this.PrivateMessages)
+      console.log(this.chatService.UserMap)
 
     });
   }
@@ -43,6 +44,8 @@ export class PrivateChatComponent implements OnInit {
   sendPrivateMessage(privateMessage) {
     this.chatForm.reset();
     let message = { senderName: this.chatService.username, receiverName: this.receivername, msg: privateMessage }
+    console.log(message);
+    console.log(this.chatService.UserMap);
     this.PrivateMessages = this.chatService.UserMap.get(this.receivername)
     this.PrivateMessages.push(message)
     this.chatService.sendPrivateMessage(message);

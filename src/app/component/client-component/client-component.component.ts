@@ -24,7 +24,7 @@ export class ClientComponentComponent implements OnInit {
     dataArray=[];
 
     constructor(private chatService: ChatServiceService) {
-       this.setName();
+      this.getActiveUsers();
        this.deleteDisconnected();
     }
 
@@ -32,7 +32,7 @@ export class ClientComponentComponent implements OnInit {
         this.broadcast_form = new FormGroup({
             inputText: new FormControl()
         });
-
+        this.username = this.chatService.username;
        
         this.chatService.getMessage().subscribe((message: any) => {
             this.messages.push(JSON.parse(message));
@@ -49,19 +49,6 @@ export class ClientComponentComponent implements OnInit {
 
         this.chatService.deleteMap().subscribe();
  
-    }
-    setName() {
-        this.username = prompt('Enter Name');
-        while (this.username === '' || this.username == null) {
-            this.username = prompt('Please Enter a Name');
-        }
-
-        this.chatService.sendUserDetails(this.username,()=> {
-            this.setName();
-        });
-        this.chatService.joinUser();
-        this.getActiveUsers();
-     
     }
     
     sendMessage() {

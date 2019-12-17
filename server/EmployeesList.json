@@ -1,0 +1,42 @@
+[
+    {
+        "name": "admin",
+        "role": "admin"
+    },
+    {
+        "name":"a",
+        "role":"Employee"
+    },
+    {
+        "name":"b",
+        "role":"Employee"
+    },
+    {
+        "name":"c",
+        "role":"Employee"
+    },
+    {
+        "name":"d",
+        "role":"Employee"
+    },
+    {
+        "name":"e",
+        "role":"Employee"
+    },
+    {
+        "name":"f",
+        "role":"Employee"
+    },
+    {
+        "name":"g",
+        "role":"Employee"
+    },
+    {
+        "name":"h",
+        "role":"Employee"
+    },
+    {
+        "name":"i",
+        "role":"Employee"
+    }
+]

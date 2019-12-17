@@ -1,0 +1,17 @@
+<div *ngIf="loginSuccess == false ; then loginTemplate else successTemplate"></div>
+<ng-template #loginTemplate>
+    <div  class="Align-Form">
+        <div class="LoginForm">
+            <form [formGroup]="loginForm"  (ngSubmit)="login(username.value)">
+                <input type="text" placeholder="Enter Name"  #username formControlName="name" class="Input"><br>
+                <button class="LoginButton">Login</button>
+                <div>{{errorMessage}}</div>
+            </form>
+        </div>
+    </div>
+  
+</ng-template>
+<ng-template #successTemplate>
+    <div>  <router-outlet></router-outlet> </div>
+</ng-template>
+

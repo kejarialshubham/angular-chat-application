@@ -16,10 +16,12 @@
     "@angular/compiler": "~8.2.14",
     "@angular/core": "~8.2.14",
     "@angular/forms": "~8.2.14",
+    "@angular/http": "^2.1.2",
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "rxjs": "~6.4.0",
+    "sentiment": "^5.0.2",
     "socket.io-client": "^2.3.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
