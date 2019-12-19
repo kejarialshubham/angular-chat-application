@@ -55,7 +55,7 @@ h2{
     font-size: 20px;
     background-color: #b5b52e;
     opacity: 86%;
-   
+    overflow-y: auto
 }
 .main-window{
     display:flex;
@@ -159,4 +159,7 @@ border-radius: 5px;
         background-color: green;
         color: white;
         padding: 4px 6px;
+}
+.Checkbox{
+    float: right;
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ChatServiceService } from 'src/app/service/client-service/chat-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-admin-component',
@@ -24,8 +25,9 @@ export class AdminComponentComponent implements OnInit {
   username:any;
 
   constructor(private chatService:ChatServiceService) {
-    this.chatService.getAllusers().subscribe(data => {
-        this.allEmployees = JSON.parse(data);
+    this.chatService.getAllUsers((data)=> {
+      this.allEmployees = JSON.parse(data);
+      console.log(this.allEmployees)
     });
     this.getActiveUsers();
     this.deleteDisconnected();
@@ -37,6 +39,8 @@ export class AdminComponentComponent implements OnInit {
   });
     
     this.username = this.chatService.username;
+   
+    
     this.chatService.getMessage().subscribe((message: any) => {
       this.messages.push(JSON.parse(message));
   });
@@ -53,6 +57,9 @@ export class AdminComponentComponent implements OnInit {
   this.chatService.deleteMap().subscribe();
   }
   
+  checkFunction(checked,name){
+    this.chatService.checkBoxValue(checked,name);
+  }
   sendMessage() {
       this.chatService.sendMessage(this.message, this.username);
       this.message = '';
@@ -74,7 +81,7 @@ export class AdminComponentComponent implements OnInit {
             this.dataArray.splice(i, 1);
           }
         }
-        j=this.dataArray.length-1;
+        j = this.dataArray.length-1;
         // if fresh start
         if(this.activeClients.length == 0){
           for (let i = 0; i < this.dataArray.length; i++) {
@@ -85,7 +92,8 @@ export class AdminComponentComponent implements OnInit {
         else if(this.activeClients.length == this.dataArray.length-1){
           this.activeClients.push({name:this.dataArray[j].name,id:this.dataArray[j].id,count:0});
         }
-
+        console.log(this.activeClients,"active clients")
+        console.log(this.allEmployees,"employees")
         for(let i=0;i<this.activeClients.length;i++){
           for(let j=0;j<this.allEmployees.length;j++){
             if(this.activeClients[i].name == this.allEmployees[j].name ){
@@ -110,7 +118,9 @@ export class AdminComponentComponent implements OnInit {
   }
   deleteDisconnected(){
       this.chatService.deleteMap().subscribe(user =>{
-        this.chatService.getAllusers();
+        this.chatService.getAllUsers((data) => {
+          this.allEmployees = JSON.parse(data);
+        });
         console.log("in delete map",user)
          for (let i = 0; i < this.activeClients.length; i++) {
           if (this.activeClients[i].name == user) {

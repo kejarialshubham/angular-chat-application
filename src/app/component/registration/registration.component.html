@@ -1,0 +1,7 @@
+<div class="Registration-Form">
+    <form [formGroup]="registrationForm" (ngSubmit)="register(NewName.value)">
+        <input type="text" placeholder="Enter Name" #NewName>
+        <button>Submit</button>
+    </form>
+    <div class="Registration-Message">{{message}}</div>
+</div>

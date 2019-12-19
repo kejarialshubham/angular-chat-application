@@ -55,7 +55,7 @@ h2{
     font-size: 20px;
     background-color: #b5b52e;
     opacity: 86%;
-   
+    overflow-y: auto
 }
 .main-window{
     display:flex;

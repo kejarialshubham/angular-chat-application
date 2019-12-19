@@ -1,5 +1,4 @@
 var mongo = require('mongodb').MongoClient;
-var allUsers = [{ "name": "admin" }, { "name": "user" }]
 var url = "mongodb://localhost:27017/users";
 
 let express = require('express')
@@ -15,7 +14,7 @@ let activeClient = [];
 let allEmployees = [];
 var db;
 const port = process.env.PORT || 3001;
-
+let adminID;
 
 var Sentiment = require('sentiment');
 var sentiment = new Sentiment();
@@ -32,23 +31,36 @@ io.on('connection', (socket) => {
 
     socket.on('check-user', username => {
         db.collection('users').findOne({ name: username }, function (findErr, result) {
-            if (findErr) {
-                console.log("Inside error");
-                io.sockets.in(socket.id).emit('failure');
-                console.log(findErr.name, findErr.code)
-            }
+         
             if (username == "admin") {
                 activeClient.push({name:"admin",id:socket.id});
+                adminID = socket.id;
                 io.sockets.in(socket.id).emit('admin-success');
             }
-            else
-                if (result.name == username) {
+            else {
+                if(result == null){
+                    io.sockets.in(socket.id).emit('failure');
+                }
+                else if (result.name == username) {
                     activeClient.push({ name: username, id: socket.id });
                     console.log(activeClient)
                     io.sockets.in(socket.id).emit('success');
                 }
+            }
         });
 
+    });
+
+    socket.on('new-user', (name)=> {
+        db.collection('users').findOne({name:name},function(error,result){
+            if(result == null){
+                    db.collection('users').insertOne({name:name,role:"employee"});
+                    activeClient.push({name:name ,id:socket.id});
+                    io.sockets.in(socket.id).emit('add-new-user');
+            } else{
+                    io.sockets.in(socket.id).emit('user-exist');
+            }
+        });
     });
 
     socket.on('get-all-users',() => {
@@ -117,20 +129,38 @@ io.on('connection', (socket) => {
         let privateDetails = JSON.parse(data);
         var emotion = "";
         console.log(privateDetails)
-        var docx = sentiment.analyze(privateDetails.msg).score;
-        console.log(docx)
-        if (docx < 0) {
-            emotion = 'Negative'
-        }
-        else if (docx = 0) {
-            emotion = 'Neutral'
-        }
-        else {
-            emotion = 'Positive'
-        }
-        privateDetails.emotion = emotion;
-        console.log(privateDetails.emotion)
         io.sockets.in(privateDetails.receiverName).emit('send-private-message', data);
+
+        // let botReply = {senderName:privateDetails.receiverName,receiverName:privateDetails.senderName,msg:''};
+
+        // let adminreply = {senderName:privateDetails.senderName,receiverName:privateDetails.receiverName,msg:''}
+
+        // if(privateDetails.msg in brain){
+        //     botReply.msg = brain[privateDetails.msg]
+            // adminreply.msg = brain[privateDetails.msg]
+        // }
+        // else{
+        //     botReply.msg = "Cannot Understand."
+        //     // adminreply.msg = "admin replied"
+        // }
+        // io.sockets.in(privateDetails.senderName).emit('send-private-message',JSON.stringify(botReply))
+        // io.sockets.in(privateDetails.receiverName).emit('send-private-message',JSON.stringify(adminreply))
+
+
+        // var docx = sentiment.analyze(privateDetails.msg).score;
+        // console.log(docx)
+        // if (docx < 0) {
+        //     emotion = 'Negative'
+        // }
+        // else if (docx = 0) {
+        //     emotion = 'Neutral'
+        // }
+        // else {
+        //     emotion = 'Positive'
+        // }
+        // privateDetails.emotion = emotion;
+        // console.log(privateDetails.emotion)
+        
     })
 
 });

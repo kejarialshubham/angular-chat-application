@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { Observable,  Subject } from 'rxjs'
+import { Observable,  Subject, of } from 'rxjs'
 import { JsonPipe } from '@angular/common';
 
 @Injectable({
@@ -12,13 +12,16 @@ export class ChatServiceService {
   private socket;
   activeClients = [];
   username: string;
-  userDetails: Observable<any>;
+  // userDetails: Observable<any>;
   UserMap: Map<any, any>;
   socketId: any;
   userDetail: any;
   newActiveClients=[];
   checkSocketId:any;
   allEmployees=[];
+  
+  checkValue = new Subject();
+  checkCurrentValue = this.checkValue.asObservable();
 
   private messageNotification = new Subject();
   currentNotification = this.messageNotification.asObservable();
@@ -69,6 +72,7 @@ export class ChatServiceService {
     console.log('join emitted');
     this.socket.emit('join', username);
   }
+
   getActiveClients(): Observable<any> {
     this.socket.emit('get-clients');
 
@@ -98,23 +102,20 @@ export class ChatServiceService {
   }
 
   deleteMap(): Observable<any>{
-    
     return Observable.create((observer) => {
       this.socket.on('delete-map', (data: any) => {
         observer.next(data);
 
       })
     });
-
 }
 
-getAllusers():Observable<any>{
+getAllUsers(callback){
    this.socket.emit('get-all-users');
-   return Observable.create((observer)=> {
     this.socket.on('received-all-users',(allEmployees) => {
-      observer.next(allEmployees)
+      callback(allEmployees)
     });
-  })
+  
 }
 
 checkUser(username,callback){
@@ -132,5 +133,22 @@ checkUser(username,callback){
     callback("admin")
   })
 }
+
+addNewUSer(name,callback){
+    this.socket.emit('new-user',name);
+    this.socket.on('add-new-user',()=> {
+        callback(true)
+    });
+    this.socket.on('user-exist',()=> {
+      callback(false);
+    });
+}
+
+checkBoxValue(checked,name){
+  let userToggle = {checked:checked,name:name}
+  this.checkValue.next(userToggle)
+}
+
+
 
 }

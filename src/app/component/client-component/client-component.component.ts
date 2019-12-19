@@ -48,7 +48,7 @@ export class ClientComponentComponent implements OnInit {
         });
 
         this.chatService.deleteMap().subscribe();
- 
+       
     }
     
     sendMessage() {
@@ -87,6 +87,7 @@ export class ClientComponentComponent implements OnInit {
     
         });
       }
+
 
     searchUserName(username) {
         for (let i = 0; i < this.chatService.activeClients.length; i++) {

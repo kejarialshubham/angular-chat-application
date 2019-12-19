@@ -35,7 +35,7 @@ export class LoginComponentComponent implements OnInit {
         }
         else{
           console.log("login attempt failed");
-          this.errorMessage = "Enter Credentials again";
+          this.errorMessage = "Wrong Credentials.";
         }
         
       });

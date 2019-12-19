@@ -1,0 +1,23 @@
+<div class="private-message" *ngIf="receivername">
+    <div class="private-message-title">Sending Message to {{receivername | titlecase}}</div>
+    <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor='let m of displayMessage' class="private-message-list">
+            <div *ngIf="m.senderName == username; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+                <div class="then-block"> <b>{{m.senderName | titlecase}} : </b>{{m.msg}}</div>
+            </ng-template>
+            <ng-template #elseBlock>
+                <div class="else-block"> <b>{{m?.senderName | titlecase}} : </b>{{m?.msg}}</div>
+            </ng-template>
+        </div>
+    </div>
+    <div class="private-message-form">
+        <form [formGroup]="chatForm" (ngSubmit)="sendPrivateMessage(privateMessage.value)" ngNativeValidate>
+            <div class="private-chat">
+                <input class="private-chat-input" type="text" #privateMessage formControlName="message" required>
+                <button class="private-chat-button">Send</button>
+            </div>
+        </form>
+    </div>
+
+</div>

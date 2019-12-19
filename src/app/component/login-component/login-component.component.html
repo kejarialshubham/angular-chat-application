@@ -5,11 +5,16 @@
             <form [formGroup]="loginForm"  (ngSubmit)="login(username.value)">
                 <input type="text" placeholder="Enter Name"  #username formControlName="name" class="Input"><br>
                 <button class="LoginButton">Login</button>
-                <div>{{errorMessage}}</div>
+                <div class="ErrorMessage">{{errorMessage}}</div>
             </form>
+            <div>
+                <a href="">
+                    Click To Register
+                </a>
+            </div>
         </div>
+     
     </div>
-  
 </ng-template>
 <ng-template #successTemplate>
     <div>  <router-outlet></router-outlet> </div>

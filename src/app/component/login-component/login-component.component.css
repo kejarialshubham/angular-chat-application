@@ -28,3 +28,8 @@ button{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.ErrorMessage{
+    text-align: center;
+    font-weight: bold;
+    margin:5px;
+}
