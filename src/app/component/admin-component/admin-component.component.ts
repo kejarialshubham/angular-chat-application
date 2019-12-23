@@ -23,7 +23,7 @@ export class AdminComponentComponent implements OnInit {
   allEmployees=[];
   activeClients=[];
   username:any;
-
+  
   constructor(private chatService:ChatServiceService) {
     this.chatService.getAllUsers((data)=> {
       this.allEmployees = JSON.parse(data);
@@ -39,6 +39,7 @@ export class AdminComponentComponent implements OnInit {
   });
     
     this.username = this.chatService.username;
+   
    
     
     this.chatService.getMessage().subscribe((message: any) => {
@@ -60,6 +61,7 @@ export class AdminComponentComponent implements OnInit {
   checkFunction(checked,name){
     this.chatService.checkBoxValue(checked,name);
   }
+  
   sendMessage() {
       this.chatService.sendMessage(this.message, this.username);
       this.message = '';
@@ -118,16 +120,11 @@ export class AdminComponentComponent implements OnInit {
   }
   deleteDisconnected(){
       this.chatService.deleteMap().subscribe(user =>{
-        this.chatService.getAllUsers((data) => {
-          this.allEmployees = JSON.parse(data);
-        });
-        console.log("in delete map",user)
          for (let i = 0; i < this.activeClients.length; i++) {
           if (this.activeClients[i].name == user) {
             this.activeClients.splice(i, 1);
-            console.log("deleted map",user)
+            this.allEmployees.push({name:user});
             this.chatService.UserMap.delete(user)
-            console.log("user deleted",this.chatService.UserMap)
           }
         }
       }) 

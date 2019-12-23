@@ -16,7 +16,7 @@
         <div class="active-clients-div" *ngFor="let client of activeClients; let i=index">
             <button (click)="gotoPrivateChat(client,i)" class="active-clients-user"
                     [class.Highlighted-Name]="client.name == highlightName">{{client.name | titlecase}} <span class="message-count">{{client.count}}</span>
-                   <span class="Checkbox"><input type="checkbox" (click)="checkFunction(checkValue.checked,client.name)" #checkValue></span>
+                   <span class="Checkbox"><input type="checkbox" (click)="checkFunction(checkValue.checked,client.name)" #checkValue ></span>
                 </button>
         </div>
         <div class="active-clients-div" *ngFor="let client of allEmployees; let i=index">

@@ -13,6 +13,7 @@ export class LoginComponentComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage:any;
   loginSuccess:Boolean = false;
+  activeClients=[];
   constructor(private chatService:ChatServiceService,private router:Router) { }
 
   ngOnInit() {
@@ -23,15 +24,16 @@ export class LoginComponentComponent implements OnInit {
   login(name){
       this.chatService.checkUser(name,(value)=> {
         if(value == "success"){
-          //go to client or admin component
           this.loginSuccess = true;
           this.router.navigateByUrl('client-component');
           console.log("success")
         }
         else if(value == "admin"){
-          //go to admin component
           this.loginSuccess = true;
           this.router.navigateByUrl('admin-component');
+        }
+        else if(value == "duplicate"){
+          this.errorMessage = "User is already ON. "
         }
         else{
           console.log("login attempt failed");

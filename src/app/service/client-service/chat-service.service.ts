@@ -12,14 +12,14 @@ export class ChatServiceService {
   private socket;
   activeClients = [];
   username: string;
-  // userDetails: Observable<any>;
   UserMap: Map<any, any>;
   socketId: any;
   userDetail: any;
   newActiveClients=[];
   checkSocketId:any;
   allEmployees=[];
-  
+  checkClient=[];
+
   checkValue = new Subject();
   checkCurrentValue = this.checkValue.asObservable();
 
@@ -27,8 +27,10 @@ export class ChatServiceService {
   currentNotification = this.messageNotification.asObservable();
 
 
+
   private messageSource = new Subject();
   currentMessage = this.messageSource.asObservable();
+
   newSocketId: any;
 
   constructor() {
@@ -55,7 +57,6 @@ export class ChatServiceService {
   getPrivateMessage() {
     return Observable.create((observer) => {
       this.socket.on('send-private-message', (message: any) => {
-        console.log('private message received', message)
         observer.next(message);
       })
     });
@@ -69,7 +70,6 @@ export class ChatServiceService {
 
 
   joinUser(username){
-    console.log('join emitted');
     this.socket.emit('join', username);
   }
 
@@ -120,18 +120,34 @@ getAllUsers(callback){
 
 checkUser(username,callback){
   this.username = username;
-  this.socket.emit('check-user',username);
-  this.socket.on('success',()=> {
-    this.joinUser(username)
-    callback("success")
+  let duplicateFlag = false;
+  this.getActiveClients().subscribe(activeClients => {
+    this.checkClient = JSON.parse(activeClients);
+    for(let i=0;i<this.checkClient.length;i++){
+      if(this.checkClient[i].name == this.username){
+          duplicateFlag = true;
+          callback("duplicate");
+      }
+    }
+    if(duplicateFlag == false){
+      this.socket.emit('check-user',username);
+  
+    this.socket.on('success',()=> {
+      this.joinUser(username)
+      callback("success")
+    });
+    this.socket.on('failure',()=> {
+      callback("failure");
+    });
+    this.socket.on('admin-success',()=> {
+      this.joinUser(username)
+      callback("admin")
+    })
+    }
+
   });
-  this.socket.on('failure',()=> {
-    callback("failure");
-  });
-  this.socket.on('admin-success',()=> {
-    this.joinUser(username)
-    callback("admin")
-  })
+ 
+  
 }
 
 addNewUSer(name,callback){
