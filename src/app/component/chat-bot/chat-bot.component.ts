@@ -3,6 +3,7 @@ import { ChatServiceService } from 'src/app/service/client-service/chat-service.
 import { FormGroup, FormControl } from '@angular/forms';
 var brain = require('src/app/constant/data.json');
 
+
 @Component({
   selector: 'app-chat-bot',
   templateUrl: './chat-bot.component.html',
@@ -10,21 +11,18 @@ var brain = require('src/app/constant/data.json');
 })
 export class ChatBotComponent implements OnInit {
 
- 
-  constructor( private chatService: ChatServiceService) {
-  }
-
   userData: any;
   username = this.chatService.username;
   receivername: any;
   PrivateMessages = [];
   chatForm: FormGroup;
   displayMessage = [];
-  currentUser: any;
-  toggleButton = true;
   userToggle:any = { checked : false , name : '' };
   userToggleArray:any = [];
-  
+  sentimentScores=[];
+
+  constructor( private chatService: ChatServiceService) {
+  }
 
   ngOnInit() {
     this.chatForm = new FormGroup({
@@ -125,5 +123,7 @@ export class ChatBotComponent implements OnInit {
           }
     });
   }
+
+  
   
 }

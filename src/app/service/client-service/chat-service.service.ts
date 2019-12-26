@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import { Observable,  Subject, of } from 'rxjs'
-import { JsonPipe } from '@angular/common';
+import { Observable,  Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,6 @@ export class ChatServiceService {
   socketId: any;
   userDetail: any;
   newActiveClients=[];
-  checkSocketId:any;
   allEmployees=[];
   checkClient=[];
 
@@ -26,12 +24,8 @@ export class ChatServiceService {
   private messageNotification = new Subject();
   currentNotification = this.messageNotification.asObservable();
 
-
-
   private messageSource = new Subject();
   currentMessage = this.messageSource.asObservable();
-
-  newSocketId: any;
 
   constructor() {
     this.socket = io.connect(this.url);
@@ -144,10 +138,7 @@ checkUser(username,callback){
       callback("admin")
     })
     }
-
   });
- 
-  
 }
 
 addNewUSer(name,callback){

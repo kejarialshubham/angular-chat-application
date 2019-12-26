@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,  FormControl } from '@angular/forms';
 import { ChatServiceService } from 'src/app/service/client-service/chat-service.service';
-import { Router } from '@angular/router';
+var constant = require('src/app/constant/constant.json');
 
 @Component({
   selector: 'app-login-component',
@@ -14,7 +14,9 @@ export class LoginComponentComponent implements OnInit {
   errorMessage:any;
   loginSuccess:Boolean = false;
   activeClients=[];
-  constructor(private chatService:ChatServiceService,private router:Router) { }
+  role:any;
+  
+  constructor(private chatService:ChatServiceService) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -25,19 +27,18 @@ export class LoginComponentComponent implements OnInit {
       this.chatService.checkUser(name,(value)=> {
         if(value == "success"){
           this.loginSuccess = true;
-          this.router.navigateByUrl('client-component');
-          console.log("success")
+          this.role = "employee";
         }
         else if(value == "admin"){
           this.loginSuccess = true;
-          this.router.navigateByUrl('admin-component');
+          this.role = "admin";
         }
         else if(value == "duplicate"){
-          this.errorMessage = "User is already ON. "
+          this.errorMessage = constant.userAlreadyActive ;
         }
         else{
-          console.log("login attempt failed");
-          this.errorMessage = "Wrong Credentials.";
+    
+          this.errorMessage = constant.wrongCredentials ;
         }
         
       });

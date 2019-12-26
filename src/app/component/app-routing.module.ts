@@ -7,9 +7,6 @@ import { AdminComponentComponent } from './admin-component/admin-component.compo
 
 
 const routes: Routes = [
- {path:'private-chat',component:PrivateChatComponent},
- {path:'client-component',component:ClientComponentComponent},
- {path:'admin-component',component:AdminComponentComponent},
 ];
 
 @NgModule({

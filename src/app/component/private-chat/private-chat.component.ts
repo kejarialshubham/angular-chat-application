@@ -10,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class PrivateChatComponent implements OnInit {
 
-  constructor(private router: ActivatedRoute, private chatService: ChatServiceService) {
+  constructor(private chatService: ChatServiceService) {
   }
 
   userData: any;

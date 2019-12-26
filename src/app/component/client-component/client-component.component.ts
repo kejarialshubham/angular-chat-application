@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ChatServiceService } from '../../service/client-service/chat-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
+var constant = require('src/app/constant/constant.json');
 
 @Component({
     selector: 'app-client-component',
@@ -10,7 +11,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ClientComponentComponent implements OnInit {
 
     username: any;
-    highlightName:any;
     searchedUser: any;
     message: any;
     errorMessage: any;
@@ -19,7 +19,6 @@ export class ClientComponentComponent implements OnInit {
     socketId: any;
     temp = 0;
     newActiveClients=[];
-  
     public broadcast_form: FormGroup;
     dataArray=[];
 
@@ -97,19 +96,16 @@ export class ClientComponentComponent implements OnInit {
             }
         }
         if (this.searchedUser == null) {
-            this.errorMessage = 'User Not Found';
+            this.errorMessage = constant.userNotFound ;
         }
     }
+    
     deleteDisconnected(){
         this.chatService.deleteMap().subscribe(user =>{
-    
-          console.log("in delete map",user)
            for (let i = 0; i < this.activeClients.length; i++) {
             if (this.activeClients[i].name == user) {
               this.activeClients.splice(i, 1);
-              console.log("deleted map",user)
               this.chatService.UserMap.delete(user)
-              console.log("user deleted",this.chatService.UserMap)
             }
           }
         }) 

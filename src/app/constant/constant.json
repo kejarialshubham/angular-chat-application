@@ -1,0 +1,8 @@
+{
+     "broadcast": "Broadcast Here",
+     "search" : "Search",
+     "active_Clients" : "Active Clients",
+     "userAlreadyActive" : "User is active. Try Later..!",
+     "wrongCredentials" : "Wrong Credentials",
+     "userNotFound" : "User Not Found"
+}

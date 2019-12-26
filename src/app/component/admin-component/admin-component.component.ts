@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ChatServiceService } from 'src/app/service/client-service/chat-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { fromEvent } from 'rxjs';
+var constant = require('src/app/constant/constant.json');
 
 @Component({
   selector: 'app-admin-component',
@@ -10,7 +10,7 @@ import { fromEvent } from 'rxjs';
 })
 export class AdminComponentComponent implements OnInit {
 
-  highlightName:any;
+ 
   searchedUser: any;
   message: any;
   errorMessage: any;
@@ -23,6 +23,7 @@ export class AdminComponentComponent implements OnInit {
   allEmployees=[];
   activeClients=[];
   username:any;
+  
   
   constructor(private chatService:ChatServiceService) {
     this.chatService.getAllUsers((data)=> {
@@ -115,7 +116,7 @@ export class AdminComponentComponent implements OnInit {
           }
       }
       if (this.searchedUser == null) {
-          this.errorMessage = 'User Not Found';
+          this.errorMessage = constant.userNotFound;
       }
   }
   deleteDisconnected(){

@@ -17,6 +17,11 @@
     </div>
 </ng-template>
 <ng-template #successTemplate>
-    <div>  <router-outlet></router-outlet> </div>
+    <div *ngIf="role == 'admin'"> 
+        <app-admin-component></app-admin-component>
+    </div>
+    <div *ngIf="role == 'employee'">
+        <app-client-component></app-client-component>
+    </div>
 </ng-template>
 
